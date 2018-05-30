@@ -2,14 +2,12 @@ sudo: required
 language: node_js
 node_js:
 - '8'
-env:
-  matrix:
-  - DOCKER_COMPOSE_VERSION=1.18.0
 services:
 - docker
 before_install:
 - cd app
 - npm install
 - npm run build
+- cd ..
 script:
 - docker run --rm -v "$(pwd):/fractal-wiki" holochain/holochain-proto:develop bash -c "cd /fractal-wiki; hcdev test"
