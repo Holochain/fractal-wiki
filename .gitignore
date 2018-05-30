@@ -1,5 +1,6 @@
 agent.txt
 priv.key
+package-lock.json
 
 .DS_Store
 node_modules/

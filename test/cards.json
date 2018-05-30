@@ -9,7 +9,7 @@
              "content": "Content of the card",
              "title": "First card"
          },
-         "Output": "%h6%",
+         "Output": "%h1%",
          "Err": "",
          "Regexp": "",
          "Time": 0,
@@ -22,7 +22,7 @@
          "Convey": "Read card test",
          "Zome": "Card",
          "FnName": "cardRead",
-         "Input": "%h6%",
+         "Input": "%h1%",
          "Regexp": "{\"content\":\"Content of the card\",\"timestamp\":[0-9]+,\"title\":\"First card\",\"version\":0}",
          "Err": "",
          "Time": 0,
