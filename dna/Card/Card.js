@@ -145,10 +145,15 @@ function validateLink(linkEntryType,baseHash,links,pkg,sources){
 function validateLinkPkg(entry_type) { return null;}
 
 function anchor(anchorText) {
-  return call("anchors","anchor",{"anchorType":"Card", "anchorText": anchorText}).replace(/"/g, '');  
+  return call("anchors","anchor",{"anchorType":"Card", "anchorText": anchorText}).replace(/"/g, '');
 }
 
 function cardCreate (param) {
+  if (!param.parentHash) {
+    param.parentHash = anchor("")
+  }
+  debug("parent: " + param.parentHash)
+
   var card = {
     title: param.title,
     content: param.content,
@@ -161,11 +166,6 @@ function cardCreate (param) {
   debug("card title: " + card.title)
   debug("card hash: " + hash)
 
-  if (!param.parentHash) {
-    param.parentHash = anchor("")
-  }
-  debug("parent: " + param.parentHash)
-
   if (param.parentHash) {
     debug("parent hash:" + param.parentHash)
 
@@ -174,6 +174,14 @@ function cardCreate (param) {
       theChild: hash
     })
   }
+
+  var result = query({
+  Return: {
+    Hashes: true
+  }
+})
+debug(result)
+
 
   return hash;
 }
