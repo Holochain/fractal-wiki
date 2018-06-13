@@ -7,14 +7,14 @@
         "language": "en"
     },
     "PropertiesSchemaFile": "properties_schema.json",
-    "BasedOn": {
-        "H": null
-    },
     "Zomes": [
         {
             "Name": "Card",
             "Description": "",
             "CodeFile": "Card.js",
+            "Config":{
+              "ErrorHandling":"returnErrorValue"
+            },
             "Entries": [
                 {
                     "Name": "Card",
@@ -83,9 +83,47 @@
             ],
             "BridgeFuncs": null,
             "BridgeTo": ""
+        },
+        {
+            "Name": "anchors",
+            "Description": "anchors mixin",
+            "RibosomeType": "js",
+            "CodeFile": "anchors.js",
+            "Config": {
+              "ErrorHandling": "throwErrors"
+            },
+            "Entries": [
+                {
+                    "Name": "anchor",
+                    "DataFormat": "json",
+                    "SchemaFile": "anchor.json",
+                    "Sharing": "public"
+                },
+                {
+                    "Name": "anchor_link",
+                    "DataFormat": "links"
+                }
+            ],
+            "Functions": [
+                {
+                    "Name": "anchor",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "exists",
+                    "CallingType": "json",
+                    "Exposure": "public"
+                },
+                {
+                    "Name": "anchors",
+                    "CallingType": "string",
+                    "Exposure": "public"
+                }
+            ]
         }
     ],
-    "RequiresVersion": 18,
+    "RequiresVersion": 21,
     "DHTConfig": {
         "HashType": "sha2-256",
         "NeighborhoodSize": 0

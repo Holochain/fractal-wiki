@@ -144,11 +144,16 @@ function validateLink(linkEntryType,baseHash,links,pkg,sources){
 
 function validateLinkPkg(entry_type) { return null;}
 
-function isErr (result) {
-  return ((typeof result === "object") && (result.name === "HolochainError"));
+function anchor(anchorText) {
+  return call("anchors","anchor",{"anchorType":"Card", "anchorText": anchorText}).replace(/"/g, '');
 }
 
 function cardCreate (param) {
+  if (!param.parentHash) {
+    param.parentHash = anchor("")
+  }
+  debug("parent: " + param.parentHash)
+
   var card = {
     title: param.title,
     content: param.content,
@@ -158,8 +163,8 @@ function cardCreate (param) {
   }
   var hash = commit("Card", card);
 
-  debug("card title:" + card.title)
-  debug("card hash:" + hash)
+  debug("card title: " + card.title)
+  debug("card hash: " + hash)
 
   if (param.parentHash) {
     debug("parent hash:" + param.parentHash)
@@ -170,11 +175,19 @@ function cardCreate (param) {
     })
   }
 
+  var result = query({
+  Return: {
+    Hashes: true
+  }
+})
+debug(result)
+
+
   return hash;
 }
 
 function cardRead (hash) {
-  return JSON.parse(get(hash, {GetMask:HC.GetMask.Entry}));
+  return get(hash, {GetMask:HC.GetMask.Entry});
 
 }
 
@@ -198,8 +211,7 @@ function cardLink (params) {
 }
 
 function cardGetLinks(baseHash) {
-  // debug("HERE: ");
-  // debug(baseHash);
+   debug("cardGetLinks Base: " + baseHash);
   var links = getLinks(baseHash, "");
 
   var res = [];

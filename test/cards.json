@@ -1,4 +1,5 @@
-{"Tests" :
+{ "Identity": "Wiki-Author",
+  "Tests" :
  [
      {
          "Convey": "Create card test",
@@ -8,7 +9,7 @@
              "content": "Content of the card",
              "title": "First card"
          },
-         "Output": "%h0%",
+         "Output": "%h1%",
          "Err": "",
          "Regexp": "",
          "Time": 0,
@@ -21,7 +22,7 @@
          "Convey": "Read card test",
          "Zome": "Card",
          "FnName": "cardRead",
-         "Input": "%r1%",
+         "Input": "%h1%",
          "Regexp": "{\"content\":\"Content of the card\",\"timestamp\":[0-9]+,\"title\":\"First card\",\"version\":0}",
          "Err": "",
          "Time": 0,
@@ -38,7 +39,7 @@
              "content": "Content of the second card",
              "title": "Second card"
          },
-         "Output": "%h0%",
+         "Output": "%h1%",
          "Err": "",
          "Regexp": "",
          "Time": 0,
@@ -52,10 +53,10 @@
          "Zome": "Card",
          "FnName": "cardLink",
          "Input": {
-             "theChild": "%h%",
-             "theParent": "%h1%"
+             "theChild": {"%result%":2},
+             "theParent":{"%result%":0}
          },
-         "Output": "%h0%",
+         "Output": "%h%",
          "Err": "",
          "Regexp": "",
          "Time": 0,
@@ -68,10 +69,10 @@
          "Convey": "Get linked cards",
          "Zome": "Card",
          "FnName": "cardGetLinks",
-         "Input": "%h2%",
-         "Output": [{"card":"%h1%","type":"CHILD_OF"}],
+         "Input": {"%result%":0},
+         "Output": "",
          "Err": "",
-         "Regexp": "",
+         "Regexp": ".+PARENT_OF.+CHILD_OF.+",
          "Time": 0,
          "Wait": 0,
          "Exposure": "public",
@@ -82,8 +83,8 @@
          "Convey": "Add card as favorite",
          "Zome": "Card",
          "FnName": "cardAddAsFavorite",
-         "Input": "%h2%",
-         "Output": "%h0%",
+         "Input": {"%result%":0},
+         "Output": "%h%",
          "Err": "",
          "Regexp": "",
          "Exposure": "public",
@@ -105,7 +106,7 @@
          "Zome": "Card",
          "FnName": "cardCreate",
          "Input": {
-             "parentHash": "%h2%",
+             "parentHash": {"%result%":2},
              "content": "Content of the third card",
              "title": "Third card"
          },
@@ -116,11 +117,25 @@
          "Raw": false
      },
      {
-         "Convey": "Get linked cards",
+         "Convey": "Get linked cards again",
          "Zome": "Card",
          "FnName": "cardGetLinks",
          "Input": {"%result%":2},
          "Output": [{"card":"%h1%","type":"CHILD_OF"},{"card":{"%result%":0},"type":"PARENT_OF"}],
+         "Err": "",
+         "Regexp": ".+PARENT_OF.+CHILD_OF.+PARENT_OF.+",
+         "Time": 0,
+         "Wait": 0,
+         "Exposure": "public",
+         "Raw": false,
+         "Repeat": 0
+     },
+     {
+         "Convey": "Retrieve card type anchor",
+         "Zome": "anchors",
+         "FnName": "exists",
+         "Input": {"anchorType":"Card", "anchorText":""},
+         "Output": true,
          "Err": "",
          "Time": 0,
          "Wait": 0,
